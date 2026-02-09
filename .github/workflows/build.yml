@@ -50,7 +50,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./my-app
           build-args: NODE_ENV=production
           platforms: linux/amd64
           push: true

@@ -38,6 +38,25 @@ If you want to run all this actions locally first then you need :
 - Terraform : deploy VMs in your Denv-r cloud environment
 - Ansible : deploy the contenerized app on your VMs
 
+## 📥 Setup & Submodules
+
+This repository uses Git submodules (specifically the `capstone` project). 
+Use the following commands to ensure you have all the necessary code:
+
+**Clone with submodules:**
+```bash
+# SSH
+git clone --recursive git@github.com:dis-bzh/formations-devops.git
+
+# ou HTTPS
+git clone --recursive https://github.com/dis-bzh/formations-devops.git
+```
+
+**If you already cloned the repo:**
+```bash
+git submodule update --init --recursive
+```
+
 ## Github workflow
 
 - snyk.yml : Security scan
