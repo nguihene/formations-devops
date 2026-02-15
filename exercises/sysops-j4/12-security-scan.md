@@ -101,26 +101,33 @@ trivy image denvr-app:test
 
 ### Partie 4 : Corriger le workflow (bonus)
 
-Modifiez `.github/workflows/snyk.yml` pour rendre le scan bloquant :
+Modifiez `.github/workflows/security.yml` pour rendre le scan bloquant :
 
 ```yaml
 name: Security scan with Snyk
 
 on: push
 
+# 🔒 Permissions explicites (bonne pratique DevSecOps)
+permissions:
+  contents: read
+
 jobs:
   security:
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # Évite les jobs qui tournent indéfiniment
     steps:
       - uses: actions/checkout@v4
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        # Retirer continue-on-error pour bloquer
+        # ✅ PAS de continue-on-error → le build échoue si vulnérabilités
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high --workdir=/github/workspace/my-app
+          # ⚠️ --file= pour pointer vers le bon package.json
+          # (--workdir n'est PAS un flag Snyk valide !)
+          args: --severity-threshold=high --file=my-app/package.json
 
       - name: Upload Snyk report
         uses: actions/upload-artifact@v4
@@ -129,6 +136,11 @@ jobs:
           name: snyk-report
           path: snyk-report.json
 ```
+
+> [!WARNING]
+> **Erreur fréquente** : utiliser `--workdir=/github/workspace/my-app` au lieu de `--file=my-app/package.json`.
+> Le flag `--workdir` n'existe pas dans Snyk CLI et sera ignoré silencieusement.
+> Snyk scannera alors `/github/workspace` (racine) au lieu de votre sous-dossier → erreur « Could not detect supported target files ».
 
 ---
 

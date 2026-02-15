@@ -120,6 +120,81 @@ jobs:
 
 ---
 
+## 💡 GitHub Actions : Tips & bonnes pratiques
+
+### Variables globales
+
+```yaml
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}  # org/repo automatique
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build image
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+```
+
+> [!TIP]
+> Utilisez `${{ github.repository }}` pour nommer automatiquement vos images.
+> Ça évite de hardcoder le nom du repo et rend le workflow réutilisable via fork.
+
+### GitHub Container Registry (GHCR)
+
+```yaml
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write    # Nécessaire pour pousser sur GHCR
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+```
+
+> [!NOTE]
+> GHCR est **intégré à GitHub**, gratuit pour les repos publics.
+> Pas besoin de Docker Hub ni de créer de secrets supplémentaires.
+
+### Dependabot : sécurité automatique
+
+```yaml
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "pip"         # Python
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"  # Actions elles-mêmes
+    directory: "/"
+    schedule:
+      interval: "weekly"
+```
+
+### Bonnes pratiques résumées
+
+| Pratique | Pourquoi |
+|----------|----------|
+| **`github.repository`** | Pas de duplication, fonctionne avec les forks |
+| **GHCR** | Registry intégré, authentification via `GITHUB_TOKEN` |
+| **Dependabot** | Mises à jour sécurité automatiques |
+| **`permissions`** explicites | Principe du moindre privilège |
+| **`GITHUB_TOKEN`** (pas de PAT) | Token temporaire, scope limité au workflow |
+| **Cache des dépendances** | Builds plus rapides (`actions/cache`) |
+
+---
+
 ## ❓ Pourquoi c'est important en 2026 ?
 
 > [!IMPORTANT]

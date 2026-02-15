@@ -192,6 +192,6 @@ kind delete cluster --name demo
 
 ## 📚 Ressources
 
-- [Théorie : Introduction à Kubernetes](../../theory/08-kubernetes-intro.md)
+- [Théorie : Introduction à Kubernetes](../../theory/09-kubernetes-intro.md)
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
 - [kind Quick Start](https://kind.sigs.k8s.io/docs/user/quick-start/)

@@ -169,7 +169,7 @@ Cette image servira de base pour la "Secure AI Platform". On l'intégrera dans u
 
 ## 📚 Ressources
 
-- [Théorie : Introduction aux Conteneurs](../../theory/07-containers-intro.md)
+- [Théorie : Introduction aux Conteneurs](../../theory/08-containers-intro.md)
 - [Docker Hub](https://hub.docker.com/)
 - [Dockerfile Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 

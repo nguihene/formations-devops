@@ -166,6 +166,90 @@ alias docker=podman
 
 ---
 
+## 💡 Dockerfile : Tips & bonnes pratiques
+
+### Utilisateur non-root
+
+```dockerfile
+# ❌ Mauvais : le conteneur tourne en root
+FROM python:3.11
+COPY app.py /app/
+CMD ["python", "/app/app.py"]
+
+# ✅ Bon : utilisateur dédié avec UID/GID explicites
+FROM python:3.11
+RUN groupadd -g 1001 appgroup && \
+    useradd -u 1001 -g appgroup -s /bin/false appuser
+COPY --chown=1001:1001 app.py /app/
+USER 1001
+CMD ["python", "/app/app.py"]
+```
+
+> [!TIP]
+> Utilisez toujours des **UID/GID numériques** plutôt que des noms d'utilisateurs.
+> Les UID sont portables entre distros et plus prévisibles dans K8s.
+
+### COPY optimisé
+
+```dockerfile
+# ✅ Une seule couche avec --chown et --chmod
+COPY --chown=1001:1001 --chmod=755 scripts/ /app/scripts/
+```
+
+> [!NOTE]
+> `--chown` et `--chmod` dans `COPY` évitent un `RUN chown` supplémentaire,
+> ce qui économise une couche et réduit la taille de l'image.
+
+### Multi-stage build
+
+```dockerfile
+# Stage 1 : Build (image lourde avec outils de compilation)
+FROM node:20 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2 : Runtime (image légère, seulement le nécessaire)
+FROM node:20-slim
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER 1001
+CMD ["node", "dist/server.js"]
+```
+
+### .dockerignore
+
+```
+# .dockerignore — à mettre à la racine du projet
+.git
+node_modules
+*.md
+.env
+.venv
+__pycache__
+```
+
+> [!WARNING]
+> Sans `.dockerignore`, tout le contexte (y compris `.git/`, `node_modules/`)
+> est envoyé au daemon Docker, ralentissant considérablement le build.
+
+### Récapitulatif des bonnes pratiques
+
+| Pratique | Pourquoi |
+|----------|----------|
+| **UID numérique** (pas de nom) | Portabilité, compatibilité K8s |
+| **COPY --chown --chmod** | Une couche au lieu de deux |
+| **Multi-stage build** | Images 10x plus petites |
+| **`.dockerignore`** | Build rapide, pas de données sensibles |
+| **Images slim/alpine** | Surface d'attaque réduite |
+| **Pas de `latest`** | Images reproductibles (tag versionné) |
+| **Un process par conteneur** | Simplicité, scaling, logs |
+
+---
+
 ## ❓ Pourquoi c'est important en 2026 ?
 
 > [!IMPORTANT]

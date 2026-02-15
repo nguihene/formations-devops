@@ -2,7 +2,7 @@
 
 > [!TIP]
 > **🎓 Formation DevSecOps disponible !**
-> Ce repo sert de support à un workshop de 2 jours. Consultez [WORKSHOP.md](./WORKSHOP.md) pour le programme complet.
+> Ce repo sert de support à un workshop de 4 jours. Consultez [WORKSHOP.md](./WORKSHOP.md) pour le programme complet.
 
 ## 📚 Ressources Formation
 
@@ -59,15 +59,41 @@ git submodule update --init --recursive
 
 ## Github workflow
 
-- snyk.yml : Security scan
-- build.yml : Build container image and push it in Github registry => triggered when pushing a tag
-- deploy.yml : Deploy the container using ansible playbook => triggered when "build and push" workflow is completed
+Le projet utilise 3 workflows CI/CD qui forment un pipeline DevSecOps complet :
 
-### Github variables
-Secrets :
-- ANSIBLE_USER : User used by ansible to connect and execute command on VMs
-- SSH_PRIVATE_KEY : SSH key corresponding to the ansible user
-- SNYK_TOKEN : Snyk API Token for security scan
+| Workflow | Déclencheur | Rôle |
+|----------|-------------|------|
+| `security.yml` | Push/PR → `main` | Scans de sécurité : dépendances (Snyk), secrets (Gitleaks), code (CodeQL) |
+| `build.yml` | Push d'un **tag** | Build Docker, push sur GHCR, scan Trivy de l'image |
+| `deploy.yml` | Après `build.yml` (succès) | Terraform (conditionnel) + Ansible avec approbation manuelle |
+
+> 📖 Voir [Exercice 02 — Premier Workflow](./exercises/devops-j1/02-premier-workflow.md) pour une analyse détaillée de chaque workflow.
+
+### Secrets (Settings → Secrets and variables → Actions)
+
+| Secret | Workflow | Usage |
+|--------|----------|-------|
+| `SNYK_TOKEN` | security.yml | Token API [snyk.io](https://snyk.io) pour scan des dépendances |
+| `S3_ACCESS_KEY_ID` | deploy.yml | Accès au backend S3 (state Terraform) |
+| `S3_SECRET_ACCESS_KEY` | deploy.yml | Accès au backend S3 (state Terraform) |
+| `API_TOKEN` | deploy.yml | Token API du provider cloud (Denv-r) |
+| `SSH_PRIVATE_KEY` | deploy.yml | Clé SSH pour Ansible |
+| `ANSIBLE_USER` | deploy.yml | Utilisateur SSH sur les VMs |
+
+### Variables (Settings → Secrets and variables → Actions → Variables)
+
+| Variable | Workflow | Usage |
+|----------|----------|-------|
+| `S3_BUCKET` | deploy.yml | Nom du bucket S3 pour le state Terraform |
+| `S3_KEY` | deploy.yml | Chemin du fichier state dans le bucket |
+| `S3_REGION` | deploy.yml | Région du bucket S3 |
+| `S3_ENDPOINT_URL` | deploy.yml | Endpoint S3 (Denv-r, OVH, Scaleway…) |
+
+### Secrets automatiques (fournis par GitHub)
+
+| Secret | Usage |
+|--------|-------|
+| `GITHUB_TOKEN` | Login GHCR, push d'images, approbations manuelles, Gitleaks |
 
 ## Ansible
 

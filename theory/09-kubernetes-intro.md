@@ -187,7 +187,7 @@ kind delete cluster --name demo
 > [!WARNING]
 > Kubernetes est **complexe** et nécessite du temps pour être maîtrisé.
 > 
-> Dans cette formation (2 jours SysOps) :
+> Dans cette formation :
 > - **Théorie** : Comprendre l'architecture et les concepts
 > - **Démo** : Voir K8s en action (kind local)
 > - **Pas de hands-on** : Le focus reste sur Docker et CI/CD

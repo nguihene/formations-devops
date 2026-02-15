@@ -6,8 +6,6 @@
 
 | Élément | Détail |
 |---------|--------|
-| **Durée** | 4 jours (2x2 jours, 28h total) |
-| **Modules** | INFAL198 DevOps (J1-J2) + INFAL122 SysOps (J3-J4) |
 | **Public** | Étudiants, reconversions |
 | **Niveau requis** | Bases réseau (IP, DNS), Linux (commandes de base), Git |
 | **Matériel** | PC avec WSL2, Docker Desktop |
@@ -42,52 +40,56 @@ git --version
 
 ---
 
-## 📅 Module 1 : DevOps (INFAL198) — Jours 1-2
+## 📅 Module 1 : Technologies DevOps (INFAL198) — Lundi & Mardi
 
-### Jour 1 : Culture DevOps & CI/CD
+### Jour 1 (Lundi) : Culture DevOps & CI/CD
 
 #### Matin (9h - 12h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 9h00 | ☕ **Accueil** | Présentation, tour de table, objectifs |
-| 9h30 | 📖 **Théorie** | [Histoire DevOps](./theory/01-devops-histoire.md) |
+| 9h00 | ☕ **Accueil** | Présentation formateur |
+| 9h15 | 🗣️ **Tour de table** | Chacun se présente : parcours, attentes, objectifs. Discussion sur le projet du cursus — si pertinent, on s'en sert comme fil rouge pour les exercices |
+| 9h45 | 📖 **Théorie** | [Histoire DevOps](./theory/01-devops-histoire.md) |
 | 10h15 | ☕ **Pause** | |
-| 10h30 | 📖 **Théorie** | [Introduction CI/CD](./theory/05-cicd-introduction.md) |
-| 11h15 | 🎯 **Exercice** | [01 - Découverte DevOps](./exercises/devops-j1/01-devops-decouverte.md) |
+| 10h30 | 🛠️ **Setup** | Vérification des outils : WSL/Linux, Git, Docker, compte GitHub. Dépannage si besoin |
+| 11h00 | 🎯 **Hands-on** | Prise en main Denv-r : connexion, création VM + IP publique + subnet + firewall via l'interface graphique |
+| 12h00 | 🎯 **Exercice** | [01 - Découverte DevOps](./exercises/devops-j1/01-devops-decouverte.md) |
 
 #### Après-midi (14h - 17h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 14h00 | 🎯 **Exercice** | [02 - Premier Workflow](./exercises/devops-j1/02-premier-workflow.md) |
-| 15h00 | ☕ **Pause** | |
-| 15h15 | 🎯 **Exercice** | [03 - Build & Test](./exercises/devops-j1/03-build-test.md) |
-| 16h30 | 🤖 **Discussion** | IA et DevOps : limites et bon usage |
+| 14h00 | 📖 **Théorie** | [Introduction CI/CD](./theory/02-cicd-introduction.md) |
+| 14h45 | 🎯 **Exercice** | [02 - Premier Workflow](./exercises/devops-j1/02-premier-workflow.md) |
+| 15h30 | ☕ **Pause** | |
+| 15h45 | 🎯 **Exercice** | [03 - Build & Test](./exercises/devops-j1/03-build-test.md) |
+| 16h45 | 🤖 **Discussion** | IA et DevOps : limites et bon usage |
 | 17h15 | 📝 **Debrief** | Q&A, preview Jour 2 |
 
 **🔨 Capstone J1** : Créer le repo Git de la Secure AI Platform + premier workflow CI
 
 ---
 
-### Jour 2 : Cloud & IaC
+### Jour 2 (Mardi) : Cloud & IaC
 
 #### Matin (9h - 12h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 9h00 | 📖 **Théorie** | [Cloud Fondamentaux](./theory/02-cloud-fondamentaux.md) |
+| 9h00 | 📖 **Théorie** | [Cloud Fondamentaux](./theory/03-cloud-fondamentaux.md) |
 | 9h45 | 📖 **Théorie** | [Comparatif Cloud](./theory/04-comparatif-cloud.md) |
 | 10h15 | ☕ **Pause** | |
 | 10h30 | 🎯 **Exercice** | [04 - Cloud Setup](./exercises/devops-j2/04-cloud-setup.md) |
-| 11h15 | 🎯 **Exercice** | [05 - Terraform Basics](./exercises/devops-j2/05-terraform-basics.md) |
+| 11h15 | 📖 **Théorie** | [Terraform & IaC](./theory/05-terraform-iac.md) |
 
 #### Après-midi (14h - 17h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 14h00 | 📖 **Théorie** | [Monitoring & SRE](./theory/06-monitoring-sre.md) |
-| 14h45 | 🎯 **Exercice** | [06 - Monitoring Intro](./exercises/devops-j2/06-monitoring-intro.md) |
+| 14h00 | 🎯 **Exercice** | [05 - Terraform Basics](./exercises/devops-j2/05-terraform-basics.md) |
+| 14h45 | 📖 **Théorie** | [Monitoring & SRE](./theory/06-monitoring-sre.md) |
+| 15h15 | 🎯 **Exercice** | [06 - Monitoring Intro](./exercises/devops-j2/06-monitoring-intro.md) |
 | 15h30 | ☕ **Pause** | |
 | 15h45 | 📝 **Synthèse** | Récap Module DevOps, preview SysOps |
 
@@ -95,15 +97,16 @@ git --version
 
 ---
 
-## 📅 Module 2 : SysOps (INFAL122) — Jours 3-4
+## 📅 Module 2 : Technologies SysOps (INFAL122) — Jeudi & Vendredi
 
-### Jour 3 : Containers & Orchestration
+### Jour 3 (Jeudi) : Containers & Orchestration
 
 #### Matin (9h - 12h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 9h00 | 📖 **Théorie** | [Introduction Containers](./theory/07-containers-intro.md) |
+| 9h00 | 📖 **Théorie** | [Cloud Native & Microservices](./theory/07-cloud-native-microservices.md) |
+| 9h30 | 📖 **Théorie** | [Introduction Containers](./theory/08-containers-intro.md) |
 | 9h45 | 🎯 **Exercice** | [07 - Docker Basics](./exercises/sysops-j3/07-docker-basics.md) |
 | 10h30 | ☕ **Pause** | |
 | 10h45 | 🎯 **Exercice** | [08 - Dockerfile Build](./exercises/sysops-j3/08-dockerfile-build.md) |
@@ -113,7 +116,7 @@ git --version
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 14h00 | 📖 **Théorie** | [Introduction Kubernetes](./theory/08-kubernetes-intro.md) |
+| 14h00 | 📖 **Théorie** | [Introduction Kubernetes](./theory/09-kubernetes-intro.md) |
 | 14h45 | 🎯 **Démo** | [10 - Kubernetes Demo](./exercises/sysops-j3/10-kubernetes-demo.md) |
 | 15h30 | ☕ **Pause** | |
 | 15h45 | 📝 **Debrief** | Q&A, preview Jour 4 |
@@ -122,16 +125,17 @@ git --version
 
 ---
 
-### Jour 4 : Automatisation & Sécurité
+### Jour 4 (Vendredi) : Automatisation & Sécurité
 
 #### Matin (9h - 12h30)
 
 | Horaire | Module | Contenu |
 |---------|--------|---------|
-| 9h00 | 📖 **Théorie** | [GitOps & DevSecOps](./theory/03-gitops-evolution.md) |
-| 9h45 | 🎯 **Exercice** | [11 - Ansible Playbook](./exercises/sysops-j4/11-ansible-playbook.md) |
-| 10h30 | ☕ **Pause** | |
-| 10h45 | 🎯 **Exercice** | [12 - Security Scan](./exercises/sysops-j4/12-security-scan.md) |
+| 9h00 | 📖 **Théorie** | [Ansible & Automatisation](./theory/10-ansible-automation.md) |
+| 9h45 | 📖 **Théorie** | [GitOps & DevSecOps](./theory/11-gitops-devsecops.md) |
+| 10h15 | ☕ **Pause** | |
+| 10h30 | 🎯 **Exercice** | [11 - Ansible Playbook](./exercises/sysops-j4/11-ansible-playbook.md) |
+| 11h30 | 🎯 **Exercice** | [12 - Security Scan](./exercises/sysops-j4/12-security-scan.md) |
 
 #### Après-midi (14h - 17h30)
 
@@ -150,14 +154,17 @@ git --version
 ### Théorie
 | # | Module | Jour |
 |---|--------|------|
-| 01 | [Histoire DevOps](./theory/01-devops-histoire.md) | J1 |
-| 02 | [Cloud Fondamentaux](./theory/02-cloud-fondamentaux.md) | J2 |
-| 03 | [GitOps & DevSecOps](./theory/03-gitops-evolution.md) | J4 |
-| 04 | [Comparatif Cloud](./theory/04-comparatif-cloud.md) | J2 |
-| 05 | [Introduction CI/CD](./theory/05-cicd-introduction.md) | J1 |
-| 06 | [Monitoring & SRE](./theory/06-monitoring-sre.md) | J2 |
-| 07 | [Introduction Containers](./theory/07-containers-intro.md) | J3 |
-| 08 | [Introduction Kubernetes](./theory/08-kubernetes-intro.md) | J3 |
+| 01 | [Histoire DevOps](./theory/01-devops-histoire.md) | Lundi |
+| 02 | [Introduction CI/CD](./theory/02-cicd-introduction.md) | Lundi |
+| 03 | [Cloud Fondamentaux](./theory/03-cloud-fondamentaux.md) | Mardi |
+| 04 | [Comparatif Cloud](./theory/04-comparatif-cloud.md) | Mardi |
+| 05 | [Terraform & IaC](./theory/05-terraform-iac.md) | Mardi |
+| 06 | [Monitoring & SRE](./theory/06-monitoring-sre.md) | Mardi |
+| 07 | [Cloud Native & Microservices](./theory/07-cloud-native-microservices.md) | Jeudi |
+| 08 | [Introduction Containers](./theory/08-containers-intro.md) | Jeudi |
+| 09 | [Introduction Kubernetes](./theory/09-kubernetes-intro.md) | Jeudi |
+| 10 | [Ansible & Automatisation](./theory/10-ansible-automation.md) | Vendredi |
+| 11 | [GitOps & DevSecOps](./theory/11-gitops-devsecops.md) | Vendredi |
 
 ### Exercices
 - [Index des exercices](./exercises/README.md)
@@ -170,13 +177,13 @@ git --version
 
 ## 🎯 Objectifs de la formation
 
-### ✅ Module DevOps (J1-J2)
+### ✅ Module DevOps (Lun-Mar)
 - [ ] Comprendre la culture et les enjeux DevOps
 - [ ] Créer un pipeline CI/CD avec GitHub Actions
 - [ ] Provisionner une infrastructure avec Terraform
 - [ ] Configurer du monitoring basique
 
-### ✅ Module SysOps (J3-J4)
+### ✅ Module SysOps (Jeu-Ven)
 - [ ] Créer et publier des images Docker
 - [ ] Orchestrer des conteneurs avec Docker Compose
 - [ ] Comprendre l'architecture Kubernetes (théorie + démo)
