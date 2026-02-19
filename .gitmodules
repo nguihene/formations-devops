@@ -1,0 +1,4 @@
+[submodule "capstone"]
+    path = capstone
+    url = ../llm-shield.git
+	branch = main

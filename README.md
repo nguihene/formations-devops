@@ -1,21 +1,31 @@
-# WIP Denv-r template project
+# Denv-r Template Project
 
-> [!WARNING]
-> Work In Progress
-> All best pratices aren't applied for now :
-> - environments
-> - tests
-> - ...
+> [!TIP]
+> **🎓 Formation DevSecOps disponible !**
+> Ce repo sert de support à un workshop de 4 jours. Consultez [WORKSHOP.md](./WORKSHOP.md) pour le programme complet.
 
-This project is a template to :
+## 📚 Ressources Formation
 
-- build and push a contenerized NextJS app in Github registry
-- managed VMs in Denv-r cloud environment using Terraform*
-- deploy the previous contenerized app on it/them using Ansible
+| Ressource | Description |
+|-----------|-------------|
+| [WORKSHOP.md](./WORKSHOP.md) | Programme structuré Jour 1 + Jour 2 |
+| [theory/](./theory/) | Modules théoriques (DevOps, Cloud, GitOps) |
+| [exercises/](./exercises/) | Exercices pratiques progressifs |
+| [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | Guide de résolution d'erreurs |
+| [AI_TRAPS.md](./AI_TRAPS.md) | Pièges IA pour développer l'esprit critique |
+
+---
+
+This project is a template to:
+
+- Build and push a containerized NextJS app to GitHub registry
+- Manage VMs in Denv-r cloud environment using Terraform
+- Deploy the containerized app on VMs using Ansible
 
 > [!NOTE]
-> This Terraform project is just for Denv-r cloud env using the Warren provider
-> But, you still can use the CI and Ansible to build, publish and deploy your NextJS app in your VMs. You just need to create an inventory with their IP address (The VMs must be available through SSH)
+> This Terraform project is configured for Denv-r cloud using the Warren provider.
+> You can also use the CI and Ansible to build, publish and deploy your NextJS app on your own VMs accessible via SSH.
+
 
 ## Prerequisites
 
@@ -28,17 +38,62 @@ If you want to run all this actions locally first then you need :
 - Terraform : deploy VMs in your Denv-r cloud environment
 - Ansible : deploy the contenerized app on your VMs
 
+## 📥 Setup & Submodules
+
+This repository uses Git submodules (specifically the `capstone` project). 
+Use the following commands to ensure you have all the necessary code:
+
+**Clone with submodules:**
+```bash
+# SSH
+git clone --recursive git@github.com:dis-bzh/formations-devops.git
+
+# ou HTTPS
+git clone --recursive https://github.com/dis-bzh/formations-devops.git
+```
+
+**If you already cloned the repo:**
+```bash
+git submodule update --init --recursive
+```
+
 ## Github workflow
 
-- snyk.yml : Security scan
-- build.yml : Build container image and push it in Github registry => triggered when pushing a tag
-- deploy.yml : Deploy the container using ansible playbook => triggered when "build and push" workflow is completed
+Le projet utilise 3 workflows CI/CD qui forment un pipeline DevSecOps complet :
 
-### Github variables
-Secrets :
-- ANSIBLE_USER : User used by ansible to connect and execute command on VMs
-- SSH_PRIVATE_KEY : SSH key corresponding to the ansible user
-- SNYK_TOKEN : Snyk API Token for security scan
+| Workflow | Déclencheur | Rôle |
+|----------|-------------|------|
+| `security.yml` | Push/PR → `main` | Scans de sécurité : dépendances (Snyk), secrets (Gitleaks), code (CodeQL) |
+| `build.yml` | Push d'un **tag** | Build Docker, push sur GHCR, scan Trivy de l'image |
+| `deploy.yml` | Après `build.yml` (succès) | Terraform (conditionnel) + Ansible avec approbation manuelle |
+
+> 📖 Voir [Exercice 02 — Premier Workflow](./exercises/devops-j1/02-premier-workflow.md) pour une analyse détaillée de chaque workflow.
+
+### Secrets (Settings → Secrets and variables → Actions)
+
+| Secret | Workflow | Usage |
+|--------|----------|-------|
+| `SNYK_TOKEN` | security.yml | Token API [snyk.io](https://snyk.io) pour scan des dépendances |
+| `S3_ACCESS_KEY_ID` | deploy.yml | Accès au backend S3 (state Terraform) |
+| `S3_SECRET_ACCESS_KEY` | deploy.yml | Accès au backend S3 (state Terraform) |
+| `API_TOKEN` | deploy.yml | Token API du provider cloud (Denv-r) |
+| `SSH_PRIVATE_KEY` | deploy.yml | Clé SSH pour Ansible |
+| `ANSIBLE_USER` | deploy.yml | Utilisateur SSH sur les VMs |
+
+### Variables (Settings → Secrets and variables → Actions → Variables)
+
+| Variable | Workflow | Usage |
+|----------|----------|-------|
+| `S3_BUCKET` | deploy.yml | Nom du bucket S3 pour le state Terraform |
+| `S3_KEY` | deploy.yml | Chemin du fichier state dans le bucket |
+| `S3_REGION` | deploy.yml | Région du bucket S3 |
+| `S3_ENDPOINT_URL` | deploy.yml | Endpoint S3 (Denv-r, OVH, Scaleway…) |
+
+### Secrets automatiques (fournis par GitHub)
+
+| Secret | Usage |
+|--------|-------|
+| `GITHUB_TOKEN` | Login GHCR, push d'images, approbations manuelles, Gitleaks |
 
 ## Ansible
 
