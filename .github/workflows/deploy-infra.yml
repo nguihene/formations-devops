@@ -2,6 +2,7 @@ name: "🏗️ Deploy — Infrastructure (Terraform)"
 
 on:
   workflow_dispatch:
+    inputs: {}
 
 permissions:
   contents: read

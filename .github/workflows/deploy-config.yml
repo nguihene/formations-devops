@@ -2,6 +2,7 @@ name: "🔧 Deploy — Configuration (Ansible)"
 
 on:
   workflow_dispatch:
+    inputs: {}
 
 permissions:
   contents: read
